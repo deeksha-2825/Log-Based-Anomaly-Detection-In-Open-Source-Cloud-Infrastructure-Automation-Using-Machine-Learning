@@ -1,0 +1,14 @@
+from scipy import interpolate
+
+embeds = np.array([1,4,5,np.nan, np.nan, 8])
+track       = np.array([0,1,3,4,5])
+
+filled = ~np.isnan(embeds)
+unfilled = np.isnan(track)
+
+scipy_interpolate = interpolate.interp1d(track[filled], embeds[filled], kind='cubic', fill_value='extrapolate') # can select spline
+embeds[unfilled] = scipy_interpolate(track[unfilled])
+
+emd = np.array(embeds)
+formatted_list = [f"{t:.6f}" for e in emd]
+print(formatted_list)
